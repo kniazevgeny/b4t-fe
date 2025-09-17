@@ -1,10 +1,10 @@
 import { composeRenderProps } from "react-aria-components"
-import { twMerge } from "tailwind-merge"
+import { twMerge, type ClassNameValue } from "tailwind-merge"
 import { tv } from "tailwind-variants"
 
 function composeTailwindRenderProps<T>(
   className: string | ((v: T) => string) | undefined,
-  tailwind: string,
+  tailwind: ClassNameValue,
 ): string | ((v: T) => string) {
   return composeRenderProps(className, (className) => twMerge(tailwind, className))
 }
