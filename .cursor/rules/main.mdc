@@ -1,0 +1,89 @@
+---
+description: 
+globs: *.tsx
+alwaysApply: true
+---
+# React/TypeScript Project Rules
+
+## Styling & UI Components
+
+### Tailwind CSS Usage
+- Always use Tailwind CSS for styling components
+- Avoid fixed width/height unless absolutely necessary - prefer responsive classes
+- text 17px is default font size, no need to specify it
+- correct font family is already applied
+- wrap text in <span/>, <div/> are more for layouts
+
+### React Aria Components
+- Use React Aria Components for all interactive elements
+- Follow the pattern from existing UI components in `src/components/ui/`
+- Implement proper accessibility attributes and ARIA states
+
+### Component Structure
+- Create components in `src/components/` directory
+- Use TypeScript interfaces for component props
+- Export both the component and its styles from UI components
+- Follow the naming convention: PascalCase for components, camelCase for files
+
+## State Management & Data Fetching
+
+### TanStack Query Usage
+- Use TanStack Query for all API calls via `src/utils/api.ts`
+- Follow the existing pattern from `src/utils/auth.ts`, `src/utils/profile.ts`, etc.
+- Use `useQuery` for data fetching, `useMutation` for mutations
+- Implement proper error handling with toast notifications
+- Use `queryClient.invalidateQueries()` for cache invalidation
+- Set appropriate `staleTime` and `refetchOnWindowFocus` options
+
+### API Integration
+- All API calls should go through `src/utils/api.ts`
+- Use TypeScript interfaces for API request/response types
+
+## Loading & Error States
+
+### Error Handling
+- Handle input validation errors with proper error states
+- Use toast notifications for user feedback (via `sonner`)
+- Implement proper error boundaries for component errors
+- Show appropriate error messages for API failures
+
+## Component Patterns
+
+### Form Components
+- Use React Aria form components for accessibility
+- Implement proper validation states and error messages
+- Use the existing form components from `src/components/ui/`
+
+### Layout Components
+- Avoid fixed dimensions - use responsive Tailwind classes
+- Use flexbox and grid for layouts (`flex`, `grid`, `gap-*`)
+- Implement proper spacing with Tailwind spacing scale
+- Use semantic HTML elements for structure
+- If I send rough components, deduce what should've been there, fix mistakes
+- For icons use Icon component
+
+### Interactive Components
+- Implement proper hover, focus, and pressed states
+- Use React Aria's built-in state management
+- Follow the existing button patterns for consistent interactions
+
+## Code Organization
+
+### File Structure
+- Keep components focused and single-purpose
+- Use barrel exports in `src/components/ui/index.ts`
+- Organize utilities by domain in `src/utils/`
+- Follow the existing routing structure in `src/routes/`
+
+### TypeScript
+- Use strict TypeScript with proper type definitions
+- Define interfaces for all component props and API types
+- Use type inference where appropriate
+- Export types from utility files
+
+### Performance
+- Implement proper dependency arrays in useEffect and useCallback
+- Use TanStack Query's caching effectively
+- Avoid unnecessary re-renders with proper state management
+
+
