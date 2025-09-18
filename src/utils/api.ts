@@ -1,4 +1,4 @@
-export const API_BASE = "https://f2680e3a5b24.ngrok-free.app//api/v1";
+export const API_BASE = "https://f2680e3a5b24.ngrok-free.app/api/v1";
 export const token = () => localStorage.getItem("accessToken");
 export const setToken = (value: string) => localStorage.setItem("accessToken", value);
 
