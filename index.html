@@ -79,7 +79,12 @@
             location.hash.split("#tgWebAppData=").slice(1)[0].split("&")[0]
           );
           const response = await fetch(
-            `http://localhost:3000/api/v1/auth/tg/login?${initData}`
+            `https://f2680e3a5b24.ngrok-free.app//api/v1/auth/tg/login?${initData}`,
+            {
+              headers: {
+                "ngrok-skip-browser-warning": "69420",
+              },
+            }
           );
           const data = await response.json();
           localStorage.setItem("accessToken", data.accessToken);
@@ -87,10 +92,11 @@
           console.log("set tokens");
 
           const profileResponse = await fetch(
-            `http://localhost:3000/api/v1/profile`,
+            `https://f2680e3a5b24.ngrok-free.app//api/v1/profile`,
             {
               headers: {
                 Authorization: `Bearer ${data.accessToken}`,
+                "ngrok-skip-browser-warning": "69420",
               },
             }
           );

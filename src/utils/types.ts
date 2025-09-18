@@ -23,6 +23,7 @@ export interface Task {
   id: string;
   title: string;
   description?: string | null;
+  rankingCriteria?: string | null;
   timeLimit?: string | null;
   status?: string;
   projectId?: string | null;
@@ -34,6 +35,7 @@ export interface Task {
 export interface CreateTaskDto {
   title: string;
   description?: string | null;
+  rankingCriteria?: string | null;
   timeLimit?: string | null;
   status?: string;
   projectId?: string | null;
@@ -42,9 +44,57 @@ export interface CreateTaskDto {
 export interface UpdateTaskDto {
   title?: string;
   description?: string | null;
+  rankingCriteria?: string | null;
   timeLimit?: string | null;
   status?: string;
   projectId?: string | null;
+}
+
+export interface Client {
+  id: string;
+  name: string;
+  email?: string | null;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface Project {
+  id: string;
+  title: string;
+  description?: string | null;
+  accessCode: string;
+  finalDate?: string | null;
+  isActive: boolean;
+  clientId: string;
+  client?: Client;
+  tasks?: Task[];
+  candidates?: string[];
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface CreateProjectDto {
+  title: string;
+  description?: string | null;
+  finalDate?: string | null;
+  isActive?: boolean;
+  clientId: string;
+}
+
+export interface UpdateProjectDto {
+  title?: string;
+  description?: string | null;
+  finalDate?: string | null;
+  isActive?: boolean;
+  clientId?: string;
+}
+
+export interface ImproveDescriptionDto {
+  text: string;
+}
+
+export interface ImproveDescriptionResponse {
+  result: string;
 }
 
 

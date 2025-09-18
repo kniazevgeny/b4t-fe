@@ -1,9 +1,10 @@
-export const API_BASE = "http://localhost:3000/api/v1";
+export const API_BASE = "https://f2680e3a5b24.ngrok-free.app//api/v1";
 export const token = () => localStorage.getItem("accessToken");
 export const setToken = (value: string) => localStorage.setItem("accessToken", value);
 
 export async function apiFetch(input: string, init: RequestInit = {}) {
   const headers = new Headers(init.headers || {});
+  headers.set("ngrok-skip-browser-warning", "69420");
   const t = token();
   if (t) headers.set("Authorization", `Bearer ${t}`);
   if (!headers.has("Content-Type") && init.body && !(init.body instanceof FormData)) {
