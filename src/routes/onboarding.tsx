@@ -1,6 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Button } from "../components/ui/button";
-import { Icon } from "../components/ui/icon";
 import { staticTransition } from "../components/ui/drawer";
 import { motion, AnimatePresence } from "motion/react";
 import { useState, useEffect } from "react";
@@ -12,31 +11,29 @@ export const Route = createFileRoute("/onboarding")({
 function OnboardingComponent() {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
-  const [blockScreen, setBlockScreen] = useState(true);
 
   const steps = [
     {
       id: 0,
-      title: "Добро пожаловать! 👋",
-      subtitle: "Платформа для найма разработчиков",
+      title: "Know who can actually do your job.",
+      subtitle: "Scout: Hiring Platform",
       description:
-        "Этот бот соединяет разработчиков и работодателей, чтобы сделать найм проще и эффективнее. Мы не сайт с вакансиями - вместо этого мы фокусируемся на упрощении работы с тестовыми заданиями.",
-      blocks: [
+        "Context-specific competency verdict and price-to-skill guidance for non-technical hiring managers.",
+      cta: "Decide: Hire · Guardrail · Pass",
+      coreJobs: [
         {
           icon: "request",
-          text: "Создавайте проекты с тестовыми заданиями",
+          title: "Context mirroring",
+          description:
+            "Turn your real stack, constraints, and typical tickets into a short, fair scenario.",
           color: "bg-blue-500/20",
           iconColor: "text-blue-500",
         },
         {
           icon: "comment",
-          text: "Кандидаты выполняют задачи и отправляют результаты",
-          color: "bg-green-500/20",
-          iconColor: "text-green-500",
-        },
-        {
-          icon: "circle",
-          text: "Оценивайте работы и находите лучших кандидатов",
+          title: "Explainable verdict",
+          description:
+            "Plain-English level assessment (Jr/Mid/etc), red flags, and price-to-skill fit.",
           color: "bg-purple-500/20",
           iconColor: "text-purple-500",
         },
@@ -44,65 +41,81 @@ function OnboardingComponent() {
     },
     {
       id: 1,
-      title: "В чём проблема?",
-      subtitle: "Современные вызовы найма",
+      title:
+        "De-risk headcount decisions so projects ship on time without overpaying for underqualified talent.",
+      subtitle: "What you get",
       description:
-        "AI – это не плохо. Но когда задания решаются вслепую, с помощью генеративных моделей без понимания сути, теряется смысл оценки кандидата.",
-      blocks: [
+        "Clear, decision-ready evidence tailored to your stack and constraints.",
+      valueProps: [
+        "Confidence over vibes. Decisions grounded in your context, not generic puzzles.",
+        "Speed, not grind. Decision-grade signal in <48 hours; candidate time ≤ the limit you set.",
+        "Lower interview load. Cut engineering interviews by 50%+ while improving signal quality.",
+        "Comp sanity. Stop paying senior rates for mid-level output.",
+      ],
+      bigJob: {
+        title:
+          "De-risk headcount decisions so projects ship on time without overpaying for underqualified talent.",
+        description: "We do it by delivering these Core Jobs:",
+      },
+    },
+    {
+      id: 2,
+      failuresTitle: "Why current approaches fail",
+      failures: [
+        "Generic coding tests ≠ your job; weak predictive validity.",
+        "Unbounded/ill-scoped take-homes feel extractive, invite outside help, and kill completion rates.",
+        "Interviews/references overweight storytelling and network effects.",
+        "Notion/Sheets = inconsistent, time-hungry, hard to defend to finance/legal.",
+      ],
+      advantagesTitle: "What's our take on it?",
+      advantages: [
+        "Interactive builder → job-faithful scenarios in minutes (no rubric writing).",
+        "Timebox control → 15 min to 12 hrs; match complexity without burning candidates.",
+        "Signal over surveillance → we focus on decisions, trade-offs, and artifacts; no covert proctoring.",
+        "Optional specialist review → calibrated human read for edge cases and executive confidence.",
+        "Explainability → readable findings + concrete evidence you can circulate.",
+      ],
+    },
+    {
+      id: 3,
+      title: "FAQ",
+      faqs: [
         {
-          icon: "idea",
-          text: "Кандидаты используют LLM, чтобы быстро выполнять и отправлять задания везде подряд",
-          color: "bg-orange-500/20",
-          iconColor: "text-orange-500",
+          q: "Will creating a task take me hours?",
+          a: "No. Guided builder; typical setup 5–10 minutes.",
         },
         {
-          icon: "robot",
-          text: "AI – это инструмент, а не зло. Проблема в потоке бездумных, сгенерированных ответов без реального вклада кандидата.",
-          color: "bg-yellow-500/20",
-          iconColor: "text-yellow-500",
+          q: "We sometimes need long tasks.",
+          a: "Supported. Set up to 12 hours when depth matters; keep scope explicit and outcomes concrete.",
         },
         {
-          icon: "comment",
-          text: "HR-ы тратят время на однотипную проверку, не видя реальных навыков",
-          color: "bg-cyan-500/20",
-          iconColor: "text-cyan-500",
+          q: "What about cheating or proctoring?",
+          a: "We don’t provide anti-cheat or surveillance. The product is built for signal quality through task design + optional specialist assessment. If you require proctoring, pair our flow with your preferred tool or add a short live walkthrough.",
         },
         {
-          icon: "circle",
-          text: "В итоге теряется качество найма и сложно найти действительно подходящих специалистов",
-          color: "bg-pink-500/20",
-          iconColor: "text-pink-500",
+          q: "Is it fair and defensible?",
+          a: "Yes–clear ladders (Jr/Mid/Senior/Staff), consistent scoring, and a shareable evidence pack for CFO/CEO/clients.",
+        },
+        {
+          q: "Do I still need interviews?",
+          a: "Use this as the decision-grade filter. Keep brief culture/behavior chats; reserve deep panels for strong signals.",
         },
       ],
     },
     {
-      id: 2,
-      title: "Понять реальный уровень кандидатов",
-      subtitle: "Judgement is the key with a wide access to AI",
-      description:
-        "Создавайте задания, чтобы действительно понять уровень кандидатов. В эпоху широкого доступа к ИИ важно не просто проверять ответы, а оценивать мышление и подход.",
-      blocks: [
-        {
-          icon: "request",
-          text: "Формулируйте задачи, которые требуют суждения и анализа",
-          color: "bg-indigo-500/20",
-          iconColor: "text-indigo-500",
-        },
-        {
-          icon: "circle",
-          text: "Используйте задания для выявления настоящих навыков",
-          color: "bg-rose-500/20",
-          iconColor: "text-rose-500",
-        },
+      id: 4,
+      title: "How it works",
+      howItWorks: [
+        "Describe your context and build a job-faithful task in minutes.",
+        "Set the timebox – 15 min → 36 hrs.",
+        "Invite candidates – link/email; clear expectations and deliverables.",
+        "Get the report – level in your context, red flags, price-to-skill fit, recommendation.",
+        "(Optional) Specialist assessor – calibrated human addendum for edge cases.",
+        "Decide – Hire / Guardrail / Pass – share the one-page evidence pack.",
       ],
     },
   ];
 
-  useEffect(() => {
-    setTimeout(() => {
-      setBlockScreen(false);
-    }, 200);
-  }, []);
 
   const nextStep = () => {
     if (currentStep < steps.length - 1) {
@@ -118,17 +131,18 @@ function OnboardingComponent() {
     }
   };
 
-  if (blockScreen) {
-    return (
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "var(--gradient, linear-gradient(113deg, oklch(0.36 0.05 230) 0%, oklch(0.28 0.04 240) 84.92%))",
-        }}
-      />
-    );
-  }
+  // Reset scroll to top on step change
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, [currentStep]);
+
+  const valueCardColors = [
+    "bg-blue-500/10",
+    "bg-emerald-500/10",
+    "bg-amber-500/10",
+    "bg-violet-500/10",
+    "bg-rose-500/10",
+  ];
 
   return (
     <div
@@ -147,80 +161,310 @@ function OnboardingComponent() {
           transition={staticTransition}
           className="flex flex-col px-6 py-8 pb-32"
         >
-          {/* Header Section */}
+          {/* Hero Section */}
           <div className="flex-1 flex flex-col justify-center">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-left mb-8"
-            >
-              <div className="text-white/80 text-sm font-medium mb-2 tracking-wide uppercase">
-                {steps[currentStep].subtitle}
-              </div>
-              <h1 className="text-white text-4xl font-bold leading-tight mb-6">
-                {steps[currentStep].title}
-              </h1>
-              <p className="text-white/90 text-base leading-relaxed max-w-md">
-                {steps[currentStep].description}
-              </p>
-            </motion.div>
-
-            {/* Feature Cards */}
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.6 }}
-              className="space-y-4 mb-8"
-            >
-              {steps[currentStep].blocks.map((block, index) => (
+            {currentStep === 0 ? (
+              <>
+                {/* Hero Content */}
                 <motion.div
-                  key={index}
-                  initial={{ x: -50, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{
-                    delay: 0.6 + index * 0.15,
-                    duration: 0.5,
-                    type: "spring",
-                    stiffness: 100,
-                  }}
-                  className={`relative overflow-hidden rounded-3xl p-6 ${block.color} backdrop-blur-sm border border-white/10 shadow-2xl`}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="text-left mb-4"
                 >
-                  <div className="flex items-center gap-4">
+                  <div className="text-white/80 text-sm font-medium mb-2 tracking-wide uppercase">
+                    {steps[currentStep].subtitle}
+                  </div>
+                  <h1 className="text-white text-4xl font-math font-bold leading-tight mb-6 max-w-2xl">
+                    {steps[currentStep].title}
+                  </h1>
+                  <p className="text-white/90 text-lg leading-relaxed max-w-xl mb-4">
+                    {steps[currentStep].description}
+                  </p>
+                  <div className="text-white/80 text-base font-medium">
+                    {steps[currentStep].cta}
+                  </div>
+                </motion.div>
+
+                {/* Core Jobs Grid */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="grid grid-cols-2 gap-3 my-6 max-w-6xl mx-auto"
+                >
+                  {steps[currentStep].coreJobs?.map((job, index) => (
+                    <div
+                      key={index}
+                      className={`relative overflow-hidden rounded-lg p-4 ${job.color} backdrop-blur-sm border border-white/10 shadow-2xl`}
+                    >
+                      <div className="flex items-start gap-4">
+                        <div className="flex-1">
+                          <h3 className="text-white font-math text-xl mb-2">
+                            {job.title}
+                          </h3>
+                          <p className="text-white/80 text-xs leading-relaxed">
+                            {job.description}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Subtle gradient overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-white/5 to-transparent pointer-events-none"></div>
+                    </div>
+                  ))}
+                </motion.div>
+              </>
+            ) : currentStep === 1 ? (
+              <>
+                {/* Big Job Section */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="text-left mb-6"
+                >
+                  <div className="text-white/80 text-sm font-medium mb-2 tracking-wide uppercase">
+                    {steps[currentStep].subtitle}
+                  </div>
+                  <h1 className="text-white text-4xl font-math leading-tight mb-4 max-w-4xl">
+                    {steps[currentStep].title}
+                  </h1>
+                  <p className="text-white/90 text-lg leading-relaxed max-w-2xl">
+                    {steps[currentStep].description}
+                  </p>
+                </motion.div>
+
+                {/* Swiss Layout Grid - 2x2 (compact, no icon on this layout) */}
+                <motion.div
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4, duration: 0.6 }}
+                  className="space-y-3 mb-3 max-w-3xl mx-auto"
+                >
+                  {steps[currentStep].valueProps?.map((text, index) => (
                     <motion.div
-                      initial={{ scale: 0, rotate: -180 }}
-                      animate={{ scale: 1, rotate: 0 }}
+                      key={index}
+                      initial={{ x: -20, opacity: 0 }}
+                      animate={{ x: 0, opacity: 1 }}
                       transition={{
-                        delay: 0.8 + index * 0.15,
+                        delay: 0.5 + index * 0.08,
                         duration: 0.4,
                         type: "spring",
-                        stiffness: 200,
+                        stiffness: 140,
                       }}
-                      className="flex-shrink-0 w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center"
+                      className={`relative overflow-hidden rounded-lg p-4 ${valueCardColors[index % valueCardColors.length]} hover:bg-white/15 backdrop-blur-sm border border-white/10 hover:border-white/20 shadow-2xl transition-colors`}
                     >
-                      <Icon variant={block.icon as any} size="lg" />
+                      {(() => {
+                        const parts = String(text).split(". ");
+                        const title = parts.shift() || "";
+                        const description = parts.join(". ");
+                        return (
+                          <>
+                            <h3 className="text-white font-math font-semibold text-lg leading-tight mb-1">
+                              {title}
+                            </h3>
+                            {description && (
+                              <p className="text-white/80 text-xs leading-relaxed">
+                                {description}
+                              </p>
+                            )}
+                          </>
+                        );
+                      })()}
+                      {/* Subtle gradient overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-white/5 to-transparent pointer-events-none"></div>
                     </motion.div>
-                    <div className="flex-1">
-                      <p className="text-white font-semibold text-sm leading-relaxed">
-                        {block.text}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Subtle gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-white/5 to-transparent pointer-events-none"></div>
+                  ))}
                 </motion.div>
-              ))}
-            </motion.div>
+              </>
+            ) : currentStep === 2 ? (
+              <>
+                {/* Why current approaches fail */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="text-left mb-4"
+                >
+                  <h2 className="text-white font-math text-2xl leading-tight mb-2">
+                    {steps[currentStep].failuresTitle}
+                  </h2>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2, duration: 0.6 }}
+                  className="space-y-3 mb-6 max-w-3xl mx-auto"
+                >
+                  {steps[currentStep].failures?.map(
+                    (text: string, index: number) => (
+                      <motion.div
+                        key={index}
+                        initial={{ x: -20, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{
+                          delay: 0.3 + index * 0.08,
+                          duration: 0.4,
+                          type: "spring",
+                          stiffness: 140,
+                        }}
+                        className={`relative overflow-hidden rounded-lg p-4 bg-rose-500/20 hover:bg-white/15 backdrop-blur-sm border border-white/10 hover:border-white/20 shadow-2xl transition-colors`}
+                      >
+                        <p className="text-white/90 text-sm leading-relaxed">
+                          {text}
+                        </p>
+                        <div className="absolute inset-0 bg-gradient-to-r from-white/5 to-transparent pointer-events-none"></div>
+                      </motion.div>
+                    )
+                  )}
+                </motion.div>
+
+                {/* Our advantages */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="text-left mb-4"
+                >
+                  <h2 className="text-white font-math text-2xl leading-tight mb-2">
+                    {steps[currentStep].advantagesTitle}
+                  </h2>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2, duration: 0.6 }}
+                  className="space-y-3 mb-8 max-w-3xl mx-auto"
+                >
+                  {steps[currentStep].advantages?.map(
+                    (text: string, index: number) => (
+                      <motion.div
+                        key={index}
+                        initial={{ x: -20, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{
+                          delay: 0.3 + index * 0.08,
+                          duration: 0.4,
+                          type: "spring",
+                          stiffness: 140,
+                        }}
+                        className={`relative overflow-hidden rounded-lg p-4 bg-emerald-500/20 hover:bg-white/15 backdrop-blur-sm border border-white/10 hover:border-white/20 shadow-2xl transition-colors`}
+                      >
+                        <p className="text-white/90 text-sm leading-relaxed">
+                          {text}
+                        </p>
+                        <div className="absolute inset-0 bg-gradient-to-r from-white/5 to-transparent pointer-events-none"></div>
+                      </motion.div>
+                    )
+                  )}
+                </motion.div>
+              </>
+            ) : currentStep === 3 ? (
+              <>
+                {/* FAQ */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="text-left mb-4"
+                >
+                  <h2 className="text-white font-math text-2xl leading-tight mb-2">
+                    {steps[currentStep].title}
+                  </h2>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2, duration: 0.6 }}
+                  className="space-y-3 mb-8 max-w-3xl mx-auto"
+                >
+                  {steps[currentStep].faqs?.map(
+                    (item: { q: string; a: string }, index: number) => (
+                      <motion.div
+                        key={index}
+                        initial={{ x: -20, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{
+                          delay: 0.3 + index * 0.08,
+                          duration: 0.4,
+                          type: "spring",
+                          stiffness: 140,
+                        }}
+                        className={`relative overflow-hidden rounded-lg p-4 ${valueCardColors[index % valueCardColors.length]} hover:bg-white/15 backdrop-blur-sm border border-white/10 hover:border-white/20 shadow-2xl transition-colors`}
+                      >
+                        <h3 className="text-white font-math font-semibold text-lg leading-tight mb-1">
+                          {item.q}
+                        </h3>
+                        <p className="text-white/90 text-sm leading-relaxed">
+                          {item.a}
+                        </p>
+                        <div className="absolute inset-0 bg-gradient-to-r from-white/5 to-transparent pointer-events-none"></div>
+                      </motion.div>
+                    )
+                  )}
+                </motion.div>
+              </>
+            ) : currentStep === 4 ? (
+              <>
+                {/* How it works */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="text-left mb-4"
+                >
+                  <h2 className="text-white font-math text-2xl leading-tight mb-2">
+                    {steps[currentStep].title}
+                  </h2>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2, duration: 0.6 }}
+                  className="space-y-3 mb-10 max-w-3xl mx-auto"
+                >
+                  {steps[currentStep].howItWorks?.map(
+                    (text: string, index: number) => (
+                      <motion.div
+                        key={index}
+                        initial={{ x: -20, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{
+                          delay: 0.3 + index * 0.06,
+                          duration: 0.4,
+                          type: "spring",
+                          stiffness: 140,
+                        }}
+                        className={`relative overflow-hidden rounded-lg p-4 ${valueCardColors[index % valueCardColors.length]} hover:bg-white/15 backdrop-blur-sm border border-white/10 hover:border-white/20 shadow-2xl transition-colors`}
+                      >
+                        <div className="flex items-start gap-3">
+                          <div className="shrink-0 w-6 h-6 rounded-full bg-white/20 text-white/90 flex items-center justify-center font-math text-sm">
+                            {index + 1}
+                          </div>
+                          <p className="text-white/90 text-sm leading-relaxed">
+                            {text}
+                          </p>
+                        </div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-white/5 to-transparent pointer-events-none"></div>
+                      </motion.div>
+                    )
+                  )}
+                </motion.div>
+              </>
+            ) : null}
           </div>
         </motion.div>
       </AnimatePresence>
 
-      {/* Fixed Bottom Navigation Buttons */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/20 to-transparent backdrop-blur-sm"
+        className="fixed bottom-18 left-0 right-0"
       >
         {/* Progress Indicator */}
         <motion.div
@@ -242,6 +486,13 @@ function OnboardingComponent() {
             />
           ))}
         </motion.div>
+      </motion.div>
+      {/* Fixed Bottom Navigation Buttons */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/20 to-transparent backdrop-blur-sm"
+      >
         <div className="flex gap-4">
           {currentStep > 0 && (
             <motion.div
@@ -271,7 +522,7 @@ function OnboardingComponent() {
               size="md"
               onPress={nextStep}
             >
-              {currentStep === steps.length - 1 ? "Создать задание 🚀" : "Далее"}
+              {currentStep === steps.length - 1 ? "Create a task 🚀" : "Next"}
             </Button>
           </motion.div>
         </div>

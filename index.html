@@ -9,10 +9,10 @@
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
-    <!-- <link
+    <link
+      href="https://fonts.googleapis.com/css2?family=Libertinus+Math&display=swap"
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Rubik+Mono+One:wght@400&display=swap"
-    /> -->
+    />
     <!-- <script src="https://cdn.jsdelivr.net/npm/eruda"></script> -->
     <title>Scout</title>
     <style>
@@ -35,7 +35,11 @@
         height: 100%;
         background: var(
           --gradient,
-          linear-gradient(113deg, oklch(0.36 0.05 230) 0%, oklch(0.28 0.04 240) 84.92%)
+          linear-gradient(
+            113deg,
+            oklch(0.36 0.05 230) 0%,
+            oklch(0.28 0.04 240) 84.92%
+          )
         );
       }
 
@@ -117,8 +121,7 @@
                 document.querySelector(".splash__container").remove();
               }, 120);
             }, 50);
-          }
-           else document.querySelector(".splash__container").remove();
+          } else document.querySelector(".splash__container").remove();
         } catch (e) {
           document.querySelector(".splash__container").remove();
           console.error(e);

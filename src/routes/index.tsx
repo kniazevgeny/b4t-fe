@@ -5,7 +5,7 @@ import { Button, buttonStyles } from "@/components/ui/button";
 import { DurationField } from "@/components/ui/duration-field";
 import { useCreateTask, useImproveDescription } from "@/utils/tasks";
 import { useProjects } from "@/projects/projects.service";
-// import { Tag, TagGroup, TagList } from "@/components/ui";
+import { Tag, TagGroup, TagList } from "@/components/ui";
 import { motion, AnimatePresence } from "motion/react";
 
 export const Route = createFileRoute("/")({
@@ -21,11 +21,14 @@ function IndexPage() {
   const [description, setDescription] = useState("");
   const [originalDescription, setOriginalDescription] = useState("");
   const [improvedDescription, setImprovedDescription] = useState("");
-  const [duration, setDuration] = useState({ days: 0, hours: 0 });
+  const [duration, setDuration] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isImproving, setIsImproving] = useState(false);
   const [showUndo, setShowUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
+  const [evaluation, setEvaluation] = useState<
+    "manual" | "expert" | "expert_interview"
+  >("manual");
   const createTask = useCreateTask();
   const improveDescription = useImproveDescription();
   const { data: projects, refetch: refetchProjects } = useProjects();
@@ -38,16 +41,19 @@ function IndexPage() {
 
   const handleImproveDescription = async () => {
     if (!description.trim() || isImproving) return;
-    
+
     setOriginalDescription(description);
     setIsImproving(true);
     setShowUndo(false);
-    
+
     try {
       const response = await improveDescription.mutateAsync({
         text: description.trim(),
       } as any);
-      const improvedText = (response as any)?.result ?? (response as any)?.improvedDescription ?? "";
+      const improvedText =
+        (response as any)?.result ??
+        (response as any)?.improvedDescription ??
+        "";
       if (improvedText) {
         setDescription(improvedText);
         setImprovedDescription(improvedText);
@@ -79,11 +85,11 @@ function IndexPage() {
     if (!title.trim()) return;
     setIsSubmitting(true);
     try {
-      // Convert duration to a readable format
-      const timeLimit =
-        duration.days > 0 || duration.hours > 0
-          ? `${duration.days > 0 ? `${duration.days} day${duration.days > 1 ? "s" : ""}` : ""}${duration.days > 0 && duration.hours > 0 ? " " : ""}${duration.hours > 0 ? `${duration.hours} hour${duration.hours > 1 ? "s" : ""}` : ""}`.trim()
-          : undefined;
+      // Convert duration (hours-only) to a readable format
+      const hoursNum = Number.parseInt(duration || "");
+      const timeLimit = Number.isFinite(hoursNum) && hoursNum > 0
+        ? `${hoursNum} hour${hoursNum > 1 ? "s" : ""}`
+        : undefined;
 
       await createTask.mutateAsync({
         title: title.trim(),
@@ -93,7 +99,7 @@ function IndexPage() {
 
       setTitle("");
       setDescription("");
-      setDuration({ days: 0, hours: 0 });
+      setDuration("");
       refetchProjects();
       navigate({ to: "/projects" });
     } finally {
@@ -135,7 +141,7 @@ function IndexPage() {
           isRequired
         />
 
-        <div className="p-4 bg-muted rounded">
+        {/* <div className="p-4 bg-muted rounded">
           <h3 className="font-medium mb-2">
             How to write a good task description:
           </h3>
@@ -167,19 +173,17 @@ function IndexPage() {
             Keep it clear, actionable, and include all necessary details for
             implementation.
           </p>
-        </div>
+        </div> */}
 
         <div className="space-y-2">
           <div className="relative">
             <Textarea
               aria-label="Description"
-              placeholder="Describe your task in detail..."
+              placeholder="Describe your task in a few paragraphs..."
               value={description}
               onChange={(v) => setDescription(String(v))}
               className={`text-primary leading-6 min-h-60 w-full transition-all duration-300 ${
-                isImproving 
-                  ? 'opacity-60 border-transparent' 
-                  : ''
+                isImproving ? "opacity-60 border-transparent" : ""
               }`}
               autoSize
               isDisabled={isImproving}
@@ -195,14 +199,22 @@ function IndexPage() {
                   {/* Animated border using mask */}
                   <motion.div
                     className="absolute inset-0 rounded border-2"
-                    style={{
-                      WebkitMask: "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
-                      WebkitMaskComposite: "xor",
-                      maskComposite: "exclude",
-                      padding: 2,
-                      background: "conic-gradient(from 0deg, rgba(59,130,246,0.6), rgba(168,85,247,0.6), rgba(236,72,153,0.6), rgba(59,130,246,0.6))",
-                    } as React.CSSProperties}
-                    transition={{ duration: 6, ease: "linear", repeat: Infinity }}
+                    style={
+                      {
+                        WebkitMask:
+                          "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+                        WebkitMaskComposite: "xor",
+                        maskComposite: "exclude",
+                        padding: 2,
+                        background:
+                          "conic-gradient(from 0deg, rgba(59,130,246,0.6), rgba(168,85,247,0.6), rgba(236,72,153,0.6), rgba(59,130,246,0.6))",
+                      } as React.CSSProperties
+                    }
+                    transition={{
+                      duration: 6,
+                      ease: "linear",
+                      repeat: Infinity,
+                    }}
                   />
                 </motion.div>
               </AnimatePresence>
@@ -247,7 +259,11 @@ function IndexPage() {
                   aria-hidden="true"
                   className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent"
                   animate={{ x: ["-120%", "120%"] }}
-                  transition={{ duration: 1.75, repeat: Infinity, ease: "easeInOut" }}
+                  transition={{
+                    duration: 1.75,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
                 />
               </>
             </Button>
@@ -255,22 +271,60 @@ function IndexPage() {
         </div>
 
         <div className="flex flex-col gap-2">
-          {/* <TagGroup
-            label="Submission Type"
+          <TagGroup
+            label="Submission evaluation method"
+            description="Choose how you'd like submissions to be evaluated."
             selectionMode="single"
-            selectedKeys={new Set([type])}
-            onSelectionChange={(keys) =>
-              handleTypeChange(keys as Iterable<string>)
-            }
+            selectedKeys={new Set([evaluation])}
+            onSelectionChange={(keys) => {
+              const first = Array.from(keys as Set<string>)[0];
+              if (first) setEvaluation(first as any);
+            }}
           >
-            <TagList aria-label="Submission type">
-              {typeOptions.map((opt) => (
-                <Tag id={opt} key={opt}>
-                  {opt}
-                </Tag>
-              ))}
+            <TagList aria-label="Evaluation method">
+              <Tag id="manual">Manual evaluation</Tag>
+              <Tag id="expert">Expert evaluation</Tag>
+              <Tag id="expert_interview">Expert eval + interview</Tag>
             </TagList>
-          </TagGroup> */}
+          </TagGroup>
+
+          {evaluation === "manual" && (
+            <div className="p-4 bg-muted rounded border">
+              <h4 className="font-medium mb-1">Manual evaluation</h4>
+              <p className="text-sm text-muted-foreground">
+                Your team reviews artifacts and decisions. Use rubric hints and
+                a shareable evidence pack to keep calls consistent.
+              </p>
+            </div>
+          )}
+
+          {evaluation === "expert" && (
+            <div className="p-4 bg-muted rounded border">
+              <h4 className="font-medium mb-1">Expert evaluation</h4>
+              <p className="text-sm text-muted-foreground">
+                Calibrated specialist scores the submission against your
+                context. Receive a clear level read, red flags, and a
+                recommendation.
+              </p>
+            </div>
+          )}
+
+          {evaluation === "expert_interview" && (
+            <div className="space-y-2 p-4 bg-muted rounded border">
+              <h4 className="font-medium mb-1">
+                Expert evaluation + interview
+              </h4>
+              <p className="text-sm text-muted-foreground">
+                Calibrated specialist scores the submission against your
+                context. Receive a clear level read, red flags, and a
+                recommendation.
+              </p>
+              <p className="text-sm text-muted-foreground">
+                Adds a focused 30–45 min interview to probe decisions and
+                trade‑offs. Best for senior roles or ambiguous signals.
+              </p>
+            </div>
+          )}
         </div>
 
         <DurationField
