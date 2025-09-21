@@ -272,8 +272,7 @@ function IndexPage() {
 
         <div className="flex flex-col gap-2">
           <TagGroup
-            label="Submission evaluation method"
-            description="Choose how you'd like submissions to be evaluated."
+            label="How you'd like submissions to be evaluated"
             selectionMode="single"
             selectedKeys={new Set([evaluation])}
             onSelectionChange={(keys) => {
@@ -282,9 +281,9 @@ function IndexPage() {
             }}
           >
             <TagList aria-label="Evaluation method">
-              <Tag id="manual">Manual evaluation</Tag>
-              <Tag id="expert">Expert evaluation</Tag>
-              <Tag id="expert_interview">Expert eval + interview</Tag>
+              <Tag id="manual">Manual</Tag>
+              <Tag id="expert">Expert</Tag>
+              <Tag id="expert_interview">Expert + interview</Tag>
             </TagList>
           </TagGroup>
 
