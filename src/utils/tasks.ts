@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { apiFetch } from "./api.ts";
-import type { CreateTaskDto, Task, UpdateTaskDto, ImproveDescriptionDto, ImproveDescriptionResponse } from "./types.ts";
+import type { CreateTaskDto, Task, UpdateTaskDto, ImproveDescriptionDto, ImproveDescriptionResponse, RefineQuizDto, AjtbdResponse } from "./types.ts";
 
 export function useTasks() {
   return useQuery({
@@ -52,6 +52,21 @@ export function useImproveDescription() {
       });
       if (res.status === 401) throw new Error("Unauthorized");
       if (!res.ok) throw new Error("Failed to improve description");
+      return res.json();
+    },
+  });
+}
+
+
+export function useRefineQuiz() {
+  return useMutation({
+    mutationFn: async (dto: RefineQuizDto): Promise<AjtbdResponse> => {
+      const res = await apiFetch(`/tasks/refine-ajtbd-quiz`, {
+        method: "POST",
+        body: JSON.stringify(dto),
+      });
+      if (res.status === 401) throw new Error("Unauthorized");
+      if (!res.ok) throw new Error("Failed to refine AJTBD quiz");
       return res.json();
     },
   });

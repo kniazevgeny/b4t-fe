@@ -6,6 +6,7 @@ import {
   composeRenderProps,
 } from "react-aria-components"
 import { tv } from "tailwind-variants"
+import * as React from "react"
 
 import { Description, FieldError, Label } from "./field"
 import { composeTailwindRenderProps, focusStyles } from "@/lib/primitive"
@@ -24,34 +25,39 @@ interface TextareaProps extends TextFieldPrimitiveProps {
   className?: string
 }
 
-const Textarea = ({
-  className,
-  placeholder,
-  label,
-  description,
-  errorMessage,
-  ...props
-}: TextareaProps) => {
-  return (
-    <TextFieldPrimitive
-      {...props}
-      className={composeTailwindRenderProps(className, "group flex flex-col gap-y-1.5")}
-    >
-      {label && <Label>{label}</Label>}
-      <TextAreaPrimitive
-        placeholder={placeholder}
-        className={composeRenderProps(className, (className, renderProps) =>
-          textareaStyles({
-            ...renderProps,
-            className,
-          }),
-        )}
-      />
-      {description && <Description>{description}</Description>}
-      <FieldError>{errorMessage}</FieldError>
-    </TextFieldPrimitive>
-  )
-}
+const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
+  ({
+    className,
+    placeholder,
+    label,
+    description,
+    errorMessage,
+    ...props
+  }, ref) => {
+    return (
+      <TextFieldPrimitive
+        {...props}
+        className={composeTailwindRenderProps(className, "group flex flex-col gap-y-1.5")}
+      >
+        {label && <Label>{label}</Label>}
+        <TextAreaPrimitive
+          ref={ref}
+          placeholder={placeholder}
+          className={composeRenderProps(className, (className, renderProps) =>
+            textareaStyles({
+              ...renderProps,
+              className,
+            }),
+          )}
+        />
+        {description && <Description>{description}</Description>}
+        <FieldError>{errorMessage}</FieldError>
+      </TextFieldPrimitive>
+    )
+  },
+)
+
+Textarea.displayName = "Textarea"
 
 export type { TextareaProps }
 export { Textarea }

@@ -98,3 +98,22 @@ export interface ImproveDescriptionResponse {
 }
 
 
+// AJTBD refine-quiz types
+export interface AjtbdSuggestion {
+  kind: "variation" | "follow_up";
+  suggestion: string;
+}
+
+export interface AjtbdResponse {
+  problem: AjtbdSuggestion[];
+  context: AjtbdSuggestion[];
+  expected_outcome: AjtbdSuggestion[];
+}
+
+export interface RefineQuizDto {
+  problem: string;
+  context: string;
+  expected_outcome: string;
+}
+
+
